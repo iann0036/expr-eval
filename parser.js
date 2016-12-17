@@ -373,6 +373,8 @@ Expression.prototype.toJSFunction = function (param, variables) {
 };
 
 function add(a, b) {
+  if (isNaN(Number(a)) || isNaN(Number(b)))
+    return concat(a,b);
   return Number(a) + Number(b);
 }
 function sub(a, b) {
@@ -1270,7 +1272,6 @@ function Parser() {
     '/': div,
     '%': mod,
     '^': Math.pow,
-    '||': concat,
     '==': equal,
     '!=': notEqual,
     '>': greaterThan,
@@ -1327,9 +1328,4 @@ Parser.prototype = {
   evaluate: function (expr, variables) {
     return this.parse(expr).evaluate(variables);
   }
-};
-
-export default {
-  Parser: Parser,
-  Expression: Expression
 };
